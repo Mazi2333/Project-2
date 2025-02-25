@@ -1,4 +1,4 @@
-# Project-3 Disaster Response
+# Project-2 Disaster Response
 # Disaster Response Pipeline Project
 
 ## Project Overview
