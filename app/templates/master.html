@@ -1,0 +1,60 @@
+ipeline-project/disaster_response_pipeline_project/app/templates/master.html -->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Disaster Response</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Disaster Response Project</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="jumbotron text-center">
+            <h1>Disaster Response Project</h1>
+            <p>Analyze disaster messages for emergency response</p>
+            <form action="/go" method="get">
+                <input type="text" class="form-control" name="query" placeholder="Enter a message to classify" required>
+                <button type="submit" class="btn btn-success btn-lg">Classify Message</button>
+            </form>
+        </div>
+
+        {% block content %}{% endblock %}
+
+        <div>
+            {% for id in ids %}
+            <div id="{{ id }}"></div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center">
+            <h2>Word Cloud of Most Used Words</h2>
+            <img src="data:image/png;base64,{{ wordcloud_base64 }}" alt="Word Cloud">
+        </div>
+    </div>
+
+    <script>
+        var graphs = {{ graphJSON | safe }};
+        var ids = {{ ids | safe }};
+        for (var i in graphs) {
+            Plotly.newPlot(ids[i], graphs[i].data, graphs[i].layout);
+        }
+    </script>
+</body>
+
+</html>
