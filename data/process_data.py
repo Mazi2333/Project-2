@@ -47,13 +47,16 @@ def clean_data(df):
     # Rename columns with extracted category names
     categories.columns = category_colnames
 
-    # Convert category values to binary (0 or 1)
+    # Convert category values to numeric
     for column in categories:
         # Set each value to be the last character of the string
         categories[column] = categories[column].astype(str).str[-1]
 
         # Convert column from string to numeric
         categories[column] = categories[column].astype(int)
+
+    # Drop observations where 'related' column value is 2
+    categories = categories[categories['related'] != 2]
 
     # Drop the original 'categories' column from df
     df = df.drop(columns=['categories'])
@@ -67,6 +70,7 @@ def clean_data(df):
     # Remove duplicate columns from the DataFrame
     df = df.loc[:, ~df.columns.duplicated()]
 
+    return df
     return df
 
 
